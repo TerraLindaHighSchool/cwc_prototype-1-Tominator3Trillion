@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerControllerY : MonoBehaviour
 {
     public float turnSpeed = 20f;
     public float speed = 20f;
