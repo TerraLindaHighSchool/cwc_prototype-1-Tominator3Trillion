@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShipController : MonoBehaviour
 {
 
-    public float forwardSpeed = 25f, strafeSpeed = 7.5f, hoverSpeed=5f;
+    public float forwardSpeed = 25f, strafeSpeed = 7.5f, hoverSpeed=5f, boostSpeed = 300f, hyperspaceSpeed = 3000f;
     private float activeForwardSpeed, activeStrafeSpeed, activeHoverSpeed;
     private float forwardAccerleration = 2.5f, strafeAccerleration = 2f, hoverAccerleration = 2f;
 
@@ -20,6 +20,8 @@ public class ShipController : MonoBehaviour
     private bool landed = false;
     private Vector3 landingSpot;
     private Quaternion landingRotation;
+
+    public GameObject player;
 
     // Start is called before the first frame update
     void Start()
@@ -51,7 +53,13 @@ public class ShipController : MonoBehaviour
 
                 transform.Rotate(-mouseDistance.y * lookRotateSpeed * Time.deltaTime, mouseDistance.x * lookRotateSpeed * Time.deltaTime, rollInput * rollSpeed * Time.deltaTime, Space.Self);
 
-                activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, Input.GetAxisRaw("Vertical") * forwardSpeed, forwardAccerleration * Time.deltaTime);
+                if(Input.GetKey(KeyCode.LeftShift)) {   
+                    activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, Input.GetAxisRaw("Vertical") * boostSpeed, forwardAccerleration * Time.deltaTime);
+                } else if (Input.GetKey(KeyCode.LeftControl)) {
+                    activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, Input.GetAxisRaw("Vertical") * hyperspaceSpeed, forwardAccerleration * Time.deltaTime);
+                } else {
+                    activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, Input.GetAxisRaw("Vertical") * forwardSpeed, hoverAccerleration * Time.deltaTime);
+                }
                 activeStrafeSpeed =  Mathf.Lerp(activeStrafeSpeed, Input.GetAxisRaw("Horizontal") * strafeSpeed, strafeAccerleration * Time.deltaTime);
                 activeHoverSpeed =  Mathf.Lerp(activeHoverSpeed, Input.GetAxisRaw("Hover") * hoverSpeed, hoverAccerleration * Time.deltaTime);
 
@@ -117,7 +125,12 @@ public class ShipController : MonoBehaviour
 
             //spawn the landing particles
                 
-            //spawn the player
+            //enable the player and teleport it to the landing spot
+            player.SetActive(true);
+            player.transform.position = landingSpot;
+
+            //disable the camera
+            Camera.main.gameObject.SetActive(false);
         }
     }
 
