@@ -26,4 +26,12 @@ public class FlipNormals : MonoBehaviour
         }
     }
 
+    void Update() {
+        //enable the mesh visibility if the camera is inside the collider
+        if (GetComponent<Collider>().bounds.Contains(Camera.main.transform.position))
+            GetComponent<MeshRenderer>().enabled = true;
+        else
+            GetComponent<MeshRenderer>().enabled = false;
+    }
+
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Destroyable
   - CelestialBody
+  - Atmosphere
   layers:
   - Default
   - TransparentFX
@@ -15,8 +16,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Planet
+  - Postprocessing
   - 
   - 
   - 

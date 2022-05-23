@@ -25,6 +25,12 @@ public class ShipController : MonoBehaviour
 
     public GameObject explosionPrefab;
 
+    private bool inAtmosphere = false;
+    public float atmosphereSpeed = 0.5f;
+
+
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +48,12 @@ public class ShipController : MonoBehaviour
 
         if(!landed) {
             if(!isLanding) {
+
+                float speedModifier = 1f;
+                if(inAtmosphere) {
+                    speedModifier = atmosphereSpeed;
+                }
+
                 lookInput.x = Input.mousePosition.x;
                 lookInput.y = Input.mousePosition.y;
 
@@ -65,8 +77,8 @@ public class ShipController : MonoBehaviour
                 activeStrafeSpeed =  Mathf.Lerp(activeStrafeSpeed, Input.GetAxisRaw("Horizontal") * strafeSpeed, strafeAccerleration * Time.deltaTime);
                 activeHoverSpeed =  Mathf.Lerp(activeHoverSpeed, Input.GetAxisRaw("Hover") * hoverSpeed, hoverAccerleration * Time.deltaTime);
 
-                transform.position += transform.forward * activeForwardSpeed * Time.deltaTime;
-                transform.position += (transform.right * activeStrafeSpeed * Time.deltaTime) + (transform.up * activeHoverSpeed * Time.deltaTime);
+                transform.position += transform.forward * activeForwardSpeed * speedModifier *  Time.deltaTime;
+                transform.position += (transform.right * activeStrafeSpeed * speedModifier * Time.deltaTime) + (transform.up * activeHoverSpeed * speedModifier * Time.deltaTime);
             
             
                 // check if p is pressed
@@ -146,10 +158,21 @@ public class ShipController : MonoBehaviour
     //on trigger enter
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Destroyable"))
+        //if other gameobject is named missile
+        if (other.gameObject.name == "Missile")
+        {
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            player.SetActive(true);
+            player.transform.position = transform.position;
+            //give player the same velocity as the players forwardSpeed hoverSpeed strafeSpeed
+            player.GetComponent<Rigidbody>().velocity = transform.forward * activeForwardSpeed + transform.up * activeHoverSpeed + transform.right * activeStrafeSpeed;
+            
+            Destroy(gameObject);
+            Destroy(other.gameObject);
+        } else if (other.gameObject.CompareTag("Destroyable"))
         {
             Destroy(other.gameObject);
-        } else {
+        } else if (!other.gameObject.CompareTag("Atmosphere")) {
             if(activeForwardSpeed > 100) {
                 Instantiate(explosionPrefab, transform.position, Quaternion.identity);
                 player.SetActive(true);
@@ -162,17 +185,20 @@ public class ShipController : MonoBehaviour
             
         }
 
-        //if other gameobject is named missile
-        if (other.gameObject.CompareTag("Missile"))
+
+        if (other.gameObject.CompareTag("Atmosphere"))
         {
-            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            player.SetActive(true);
-            player.transform.position = transform.position;
-            //give player the same velocity as the players forwardSpeed hoverSpeed strafeSpeed
-            player.GetComponent<Rigidbody>().velocity = transform.forward * activeForwardSpeed + transform.up * activeHoverSpeed + transform.right * activeStrafeSpeed;
-            
-            Destroy(gameObject);
+            inAtmosphere = true;
         }
+        
+    }
+
+    private void OnTriggerExit(Collider other) {
+        if (other.gameObject.CompareTag("Atmosphere"))
+        {
+            inAtmosphere = false;
+        }
+
     }
 
 }

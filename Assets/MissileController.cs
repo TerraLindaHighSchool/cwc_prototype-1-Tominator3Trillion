@@ -8,6 +8,8 @@ public class MissileController : MonoBehaviour
     public float maxSpeed = 200.0f;
     private float activeSpeed = 0.0f;
 
+    GameObject explosionPrefab;
+
    
     void Update()
     {
@@ -19,5 +21,13 @@ public class MissileController : MonoBehaviour
             activeSpeed = Mathf.Lerp(activeSpeed, maxSpeed, Time.deltaTime);
             
         }
+    }
+
+    //on collision
+    void OnCollisionEnter(Collision collision)
+    {
+        GameObject explosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
+        Destroy(explosion, 3.0f);
+        Destroy(gameObject);
     }
 }

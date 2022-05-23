@@ -50,6 +50,8 @@ public class Planet : MonoBehaviour
             if(meshFilters[i] == null || meshFilters[i] == null)
             {
                 GameObject meshObj = new GameObject("mesh");
+                //set the layer to Planet
+                meshObj.layer = LayerMask.NameToLayer("Planet");
                 meshObj.transform.parent = transform;
 
                 meshObj.AddComponent<MeshRenderer>();
@@ -68,6 +70,7 @@ public class Planet : MonoBehaviour
 
             bool renderFace = faceRenderMask == FaceRenderMask.All || (int)faceRenderMask - 1 == i;
             meshFilters[i].gameObject.SetActive(renderFace);
+
         }
     }
 
