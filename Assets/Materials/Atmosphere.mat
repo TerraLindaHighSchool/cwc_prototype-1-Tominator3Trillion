@@ -49,7 +49,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AlphaClip: 0
-    - _AtmosphereRadius: 1082.8
+    - _AtmosphereRadius: 1160.2
     - _Blend: 0
     - _BumpScale: 1
     - _ClipThreshold: 0
@@ -60,18 +60,18 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _LightIntensity: 24.2
-    - _LightSteps: 0.29
+    - _LightIntensity: 16.96
+    - _LightSteps: 10
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _PlanetRadius: 1072.04
+    - _PlanetRadius: 1054
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Steps: 9.94
+    - _Steps: 7.7
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
@@ -80,9 +80,9 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _LightColor: {r: 0.31772873, g: 0.7218268, b: 0.7924528, a: 1}
-    - _LightDirection: {r: 0, g: 0, b: 1, a: 1}
-    - _MieScattering: {r: -0.33, g: 4.02, b: 1.52, a: 0.35}
-    - _RayleighScattering: {r: 3.53, g: -0.53, b: 0.51, a: 0.3}
+    - _LightDirection: {r: -10.22, g: 0, b: 2.76, a: 1}
+    - _MieScattering: {r: 35.21, g: 16.49, b: 30.37, a: 1}
+    - _RayleighScattering: {r: 20.6, g: 2.78, b: 2.73, a: 18.29}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
 --- !u!114 &2644375607502417377
 MonoBehaviour:

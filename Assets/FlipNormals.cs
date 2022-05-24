@@ -27,11 +27,12 @@ public class FlipNormals : MonoBehaviour
     }
 
     void Update() {
-        //enable the mesh visibility if the camera is inside the collider
-        if (GetComponent<Collider>().bounds.Contains(Camera.main.transform.position))
-            GetComponent<MeshRenderer>().enabled = true;
-        else
-            GetComponent<MeshRenderer>().enabled = false;
+        //base on distance of main camera change material alpha
+        float distance = Vector3.Distance(transform.position, Camera.main.transform.position);
+        if (distance < 1000)
+        {
+            GetComponent<Renderer>().material.color = new Color(1, 1, 1, distance / 1000);
+        }
     }
 
 }

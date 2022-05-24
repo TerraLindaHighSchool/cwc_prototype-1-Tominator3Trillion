@@ -69,7 +69,7 @@ public class ShipController : MonoBehaviour
 
                 if(Input.GetKey(KeyCode.LeftShift)) {   
                     activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, Input.GetAxisRaw("Vertical") * boostSpeed, forwardAccerleration * Time.deltaTime);
-                } else if (Input.GetKey(KeyCode.LeftControl)) {
+                } else if (Input.GetKey(KeyCode.LeftControl) && !inAtmosphere) {
                     activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, Input.GetAxisRaw("Vertical") * hyperspaceSpeed, forwardAccerleration * Time.deltaTime);
                 } else {
                     activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, Input.GetAxisRaw("Vertical") * forwardSpeed, hoverAccerleration * Time.deltaTime);
