@@ -28,6 +28,11 @@ public class ShipController : MonoBehaviour
     private bool inAtmosphere = false;
     public float atmosphereSpeed = 0.5f;
 
+    public GameObject laserBeam;
+    private float timeSinceLastBeam = 1f;
+    public float beamCooldown = 0.25f;
+    public Transform[] shootingPoints;
+
 
     
 
@@ -43,10 +48,19 @@ public class ShipController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        
-
+        timeSinceLastBeam += Time.deltaTime;
         if(!landed) {
+
+            //iff clicked shoot beam
+            if (Input.GetMouseButton(0) && timeSinceLastBeam > beamCooldown)
+            {
+                timeSinceLastBeam = 0f;
+                foreach (Transform shootingPoint in shootingPoints)
+                {
+                    Instantiate(laserBeam, shootingPoint.position, shootingPoint.rotation);
+                }
+            }
+
             if(!isLanding) {
 
                 float speedModifier = 1f;
@@ -172,7 +186,7 @@ public class ShipController : MonoBehaviour
         } else if (other.gameObject.CompareTag("Destroyable"))
         {
             Destroy(other.gameObject);
-        } else if (!other.gameObject.CompareTag("Atmosphere")) {
+        } else if (!other.gameObject.CompareTag("Atmosphere")&&!other.gameObject.CompareTag("Laser")) {
             if(activeForwardSpeed > 100) {
                 Instantiate(explosionPrefab, transform.position, Quaternion.identity);
                 player.SetActive(true);

@@ -7,6 +7,8 @@ TagManager:
   - Destroyable
   - CelestialBody
   - Atmosphere
+  - Ship
+  - Laser
   layers:
   - Default
   - TransparentFX
