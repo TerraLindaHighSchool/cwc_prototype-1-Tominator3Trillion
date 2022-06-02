@@ -9,6 +9,7 @@ TagManager:
   - Atmosphere
   - Ship
   - Laser
+  - Enemy
   layers:
   - Default
   - TransparentFX

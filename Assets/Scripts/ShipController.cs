@@ -6,7 +6,7 @@ public class ShipController : MonoBehaviour
 {
 
     public float forwardSpeed = 25f, strafeSpeed = 7.5f, hoverSpeed=5f, boostSpeed = 300f, hyperspaceSpeed = 3000f;
-    private float activeForwardSpeed, activeStrafeSpeed, activeHoverSpeed;
+    public float activeForwardSpeed, activeStrafeSpeed, activeHoverSpeed;
     private float forwardAccerleration = 2.5f, strafeAccerleration = 2f, hoverAccerleration = 2f;
 
     public float lookRotateSpeed = 90f;
@@ -48,6 +48,9 @@ public class ShipController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!GameManager.gameStarted)
+            return;
+
         timeSinceLastBeam += Time.deltaTime;
         if(!landed) {
 
@@ -176,11 +179,7 @@ public class ShipController : MonoBehaviour
         if (other.gameObject.name == "Missile")
         {
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            player.SetActive(true);
-            player.transform.position = transform.position;
-            //give player the same velocity as the players forwardSpeed hoverSpeed strafeSpeed
-            player.GetComponent<Rigidbody>().velocity = transform.forward * activeForwardSpeed + transform.up * activeHoverSpeed + transform.right * activeStrafeSpeed;
-            
+            EjectPlayer();
             Destroy(gameObject);
             Destroy(other.gameObject);
         } else if (other.gameObject.CompareTag("Destroyable"))
@@ -189,11 +188,7 @@ public class ShipController : MonoBehaviour
         } else if (!other.gameObject.CompareTag("Atmosphere")&&!other.gameObject.CompareTag("Laser")) {
             if(activeForwardSpeed > 100) {
                 Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-                player.SetActive(true);
-                player.transform.position = transform.position;
-                //give player the same velocity as the players forwardSpeed hoverSpeed strafeSpeed
-                player.GetComponent<Rigidbody>().velocity = transform.forward * activeForwardSpeed + transform.up * activeHoverSpeed + transform.right * activeStrafeSpeed;
-            
+                EjectPlayer();
                 Destroy(gameObject);
             }
             
@@ -205,6 +200,15 @@ public class ShipController : MonoBehaviour
             inAtmosphere = true;
         }
         
+    }
+
+    public void EjectPlayer() {
+        player.SetActive(true);
+        player.transform.position = transform.position;
+        //give player the same velocity as the players forwardSpeed hoverSpeed strafeSpeed
+        player.GetComponent<Rigidbody>().velocity = transform.forward * activeForwardSpeed + transform.up * activeHoverSpeed + transform.right * activeStrafeSpeed;
+        GameObject gameManager = GameObject.FindGameObjectWithTag("GameManager");
+        StartCoroutine(gameManager.GetComponent<GameManager>().RespawnShip());
     }
 
     private void OnTriggerExit(Collider other) {

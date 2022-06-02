@@ -28,6 +28,14 @@ public class MissileController : MonoBehaviour
     {
         GameObject explosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
         Destroy(explosion, 3.0f);
+
+        if(collision.gameObject.tag == "Ship")
+        {
+            collision.gameObject.GetComponent<ShipController>().EjectPlayer();
+            collision.gameObject.SetActive(false);
+            GameObject gameManager = GameObject.FindGameObjectWithTag("GameManager");
+            StartCoroutine(gameManager.GetComponent<GameManager>().RespawnShip());
+        }
         Destroy(gameObject);
     }
 }

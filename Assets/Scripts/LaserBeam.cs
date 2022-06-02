@@ -32,6 +32,8 @@ public class LaserBeam : MonoBehaviour
         Destroy(explosion, 3.0f);
         if (other.gameObject.tag == "Enemy")
         {
+            explosion.transform.localScale = new Vector3(5f, 5f, 5f);
+            Destroy(explosion, 3.0f);
             Destroy(other.gameObject);
             Destroy(gameObject);    
         }
