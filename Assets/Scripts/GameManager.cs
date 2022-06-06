@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public float delay;
 
     public GameObject menu;
+    public GameObject GUI;
     public Camera menuCam;
 
     public static bool gameStarted = false;
@@ -52,6 +53,7 @@ public class GameManager : MonoBehaviour
         inAnim=false;
         
         menuCam.enabled = false;
+        GUI.SetActive(true);
     }
 
     public IEnumerator RespawnShip() {
