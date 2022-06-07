@@ -33,9 +33,17 @@ public class LaserBeam : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             explosion.transform.localScale = new Vector3(5f, 5f, 5f);
-            Destroy(explosion, 3.0f);
-            Destroy(other.gameObject);
-            Destroy(gameObject);    
+            Destroy(other.gameObject.transform.parent.gameObject);
+        }
+
+        if (other.gameObject.tag == "Boss")
+        {
+            explosion.transform.localScale = new Vector3(10f, 10f, 10f);
+            //get boss script
+            Boss bossScript = other.gameObject.GetComponent<Boss>();
+            //damage boss
+            bossScript.TakeDamage(20f);
+            
         }
         Destroy(gameObject); 
     }

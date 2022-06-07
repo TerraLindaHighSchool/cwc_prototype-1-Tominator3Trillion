@@ -16,6 +16,8 @@ public class Boss : MonoBehaviour
 
     private bool laserShooting = true;
 
+    private int tickWhenDied = 0;
+
 
     public void TakeDamage(float damage)
     {
@@ -43,7 +45,15 @@ public class Boss : MonoBehaviour
         }
         gameTick++;
 
-        if(laserShooting && gameTick % 100 == 0) {
+        if( gameTick > tickWhenDied + 1000) {
+            laserShooting = true;
+            laser.SetActive(true);
+        } else {
+            laser.SetActive(false);
+            laserShooting = false;
+        }
+
+        if(laserShooting && gameTick % 10 == 0) {
             laser.SetActive(true);
             //find object in scene with planet manager
             GameObject planetManager = GameObject.Find("PlanetManager");
@@ -56,8 +66,8 @@ public class Boss : MonoBehaviour
 
     void Die()
     {
-        GameObject explosion = Instantiate(massiveExplosion, transform.position, transform.rotation);
-        Destroy(explosion, 10.0f);
-        Destroy(gameObject);
+        health = 100f;
+        tickWhenDied = gameTick;
+        
     }
 }

@@ -33,6 +33,9 @@ public class ShipController : MonoBehaviour
     public float beamCooldown = 0.25f;
     public Transform[] shootingPoints;
 
+    private AudioSource audioSource;
+    public AudioClip laserSound;
+
 
     
 
@@ -43,6 +46,8 @@ public class ShipController : MonoBehaviour
         screenCenter.y = Screen.height / 2;
 
         Cursor.lockState = CursorLockMode.Confined;
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -61,6 +66,7 @@ public class ShipController : MonoBehaviour
                 foreach (Transform shootingPoint in shootingPoints)
                 {
                     Instantiate(laserBeam, shootingPoint.position, shootingPoint.rotation);
+                    audioSource.PlayOneShot(laserSound);
                 }
             }
 

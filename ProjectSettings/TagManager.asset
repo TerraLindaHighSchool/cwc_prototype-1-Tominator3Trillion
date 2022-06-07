@@ -10,6 +10,7 @@ TagManager:
   - Ship
   - Laser
   - Enemy
+  - Boss
   layers:
   - Default
   - TransparentFX
